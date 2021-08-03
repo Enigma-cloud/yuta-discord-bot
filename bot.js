@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const Discord = require('discord.js');
-const ms = require('ms');
 const client = new Discord.Client({
     partials: ["MESSAGE"]
 });
@@ -11,11 +10,6 @@ const ADD_ROLE_COMMAND = 'member';
 const roles = {
     '!member-1': '872051713903841281',
     '!member-2': '872051863103635466' 
-}
-
-function addRole(msg, role) {
-    msg.member.roles.add(roles[role]);
-    return msg.reply(`check your new role 🎉`)
 }
 
 client.on('ready', () => {
@@ -32,15 +26,18 @@ client.on('message', msg => {
         msg.reply('interesting indeed 🤔')
         msg.react('🤔')
     }
-
     if (msg.content === `${BOT_PREFIX}${ADD_ROLE_COMMAND}-1`) {
-        addRole(msg, `${BOT_PREFIX}${ADD_ROLE_COMMAND}-1`);
+        addRole(msg, msg.content);
     }
-
     if (msg.content === `${BOT_PREFIX}${ADD_ROLE_COMMAND}-2`) {
-        addRole(msg, `${BOT_PREFIX}${ADD_ROLE_COMMAND}-2`);
+        addRole(msg, msg.content);
     }
 })
+
+function addRole(msg, role) {
+    msg.member.roles.add(roles[role]);
+    return msg.reply(`check your new role 🎉`)
+}
 
 
 client.login(process.env.BOT_TOKEN);
